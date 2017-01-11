@@ -15,6 +15,7 @@ class TEST{
 private:
 	
 public:
+	~TEST();
 	void keyPressed(int key);	
 	void exit();
 };
