@@ -18,20 +18,25 @@ ofApp内で定義したclass memberのDestructorも呼ばれない。
 	ofExit();の後にreturn;してその関数を抜ければOK.
 ************************************************************/
 
+/************************************************************
+************************************************************/
 #include "ofApp.h"
 
-/******************************
-******************************/
-TEST::~TEST()
-{
-	printf("%s\n", __FUNCTION__);
-}
+/************************************************************
+************************************************************/
+TEMP Temp_inner("Temp_outer");
+
+
+/************************************************************
+************************************************************/
 
 /******************************
 ******************************/
-void TEST::exit()
+ofApp::ofApp()
+: Temp_inner("Temp_inner")
 {
 	printf("%s\n", __FUNCTION__);
+	fflush(stdout);
 }
 
 /******************************
@@ -39,100 +44,138 @@ void TEST::exit()
 ofApp::~ofApp()
 {
 	printf("%s\n", __FUNCTION__);
+	fflush(stdout);
 }
 
 /******************************
 ******************************/
-void ofApp::exit()
-{
-	test.exit();
+void ofApp::exit(){
+	printf("%s\n", __FUNCTION__);
+	fflush(stdout);
+}
+
+/******************************
+******************************/
+void ofApp::setup(){
+	/********************
+	********************/
+	ofSetBackgroundAuto(true);
 	
-	printf("Good-bye\n");
-	// std::exit(1);
+	ofSetWindowTitle("oFExit");
+	ofSetVerticalSync(true);
+	ofSetFrameRate(10);
+	ofSetWindowShape(WINDOW_WIDTH, WINDOW_HEIGHT);
+	ofSetEscapeQuitsApp(false);
+	
+	ofEnableAlphaBlending();
+	ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+	// ofEnableBlendMode(OF_BLENDMODE_ADD);
+	// ofEnableSmoothing();
+	
+	/********************
+	********************/
+	// ofExit();
+	std::exit();
 }
 
 /******************************
 ******************************/
-void TEST::keyPressed(int key){
+void ofApp::update(){
+	if(b_Exit){
+		printf("ofApp:update:b_Exit\n");
+		fflush(stdout);
+		
+		/*
+		ofExit();
+		std::exit(1);
+		*/
+	}
+	
+	printf("%s\n", __FUNCTION__);
+	fflush(stdout);
+}
+
+/******************************
+******************************/
+void ofApp::draw(){
+	ofBackground(30);
+	
+	printf("%s\n", __FUNCTION__);
+	fflush(stdout);
+}
+
+/******************************
+******************************/
+void ofApp::keyPressed(int key){
 	switch(key){
-		case 'q':
-			ofExit();
-			// return;
+		case ' ':
+			b_Exit = true;
+			printf("%s : Exit\n", __FUNCTION__);
+			fflush(stdout);
+			break;
 			
-			printf("process after ofExit()\n");
+		case 'e':
+			Temp_inner.exit();
 			break;
 	}
 }
 
-//--------------------------------------------------------------
-void ofApp::setup(){
-	ofSetWindowTitle("Exit test");
-	ofSetFrameRate(60);
-	ofSetWindowShape(600, 400);
-	ofSetEscapeQuitsApp(false);
-}
-
-//--------------------------------------------------------------
-void ofApp::update(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::draw(){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-	test.keyPressed(key);
-}
-
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::keyReleased(int key){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::mouseMoved(int x, int y ){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::mouseDragged(int x, int y, int button){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::mousePressed(int x, int y, int button){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::mouseReleased(int x, int y, int button){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::mouseEntered(int x, int y){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::mouseExited(int x, int y){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::windowResized(int w, int h){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::gotMessage(ofMessage msg){
 
 }
 
-//--------------------------------------------------------------
+/******************************
+******************************/
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
 }

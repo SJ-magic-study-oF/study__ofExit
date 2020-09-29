@@ -8,25 +8,52 @@
 
 /************************************************************
 ************************************************************/
-
-/**************************************************
-**************************************************/
-class TEST{
+class TEMP{
 private:
+	string str_Name;
 	
 public:
-	~TEST();
-	void keyPressed(int key);	
-	void exit();
+	TEMP(string _str_Name)
+	: str_Name(_str_Name)
+	{
+		printf("%s : %s\n", str_Name.c_str(), __FUNCTION__);
+		fflush(stdout);
+	}
+	
+	~TEMP()
+	{
+		printf("%s : %s\n", str_Name.c_str(), __FUNCTION__);
+		fflush(stdout);
+	}
+	
+	void exit(){
+		ofExit();
+		printf("%s : %s\n", str_Name.c_str(), __FUNCTION__);
+		fflush(stdout);
+	}
+	
 };
 
-/**************************************************
-**************************************************/
+/************************************************************
+************************************************************/
 class ofApp : public ofBaseApp{
 private:
-	TEST test;
+	/****************************************
+	****************************************/
+	enum{
+		WINDOW_WIDTH	= 500,
+		WINDOW_HEIGHT	= 500,
+	};
+	
+	/****************************************
+	****************************************/
+	bool b_Exit = false;
+	TEMP Temp_inner;
 	
 public:
+	/****************************************
+	****************************************/
+	ofApp();
 	~ofApp();
 	void exit();
 	
@@ -45,5 +72,5 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
-		
+	
 };
