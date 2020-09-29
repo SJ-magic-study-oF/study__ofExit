@@ -1,21 +1,4 @@
 /************************************************************
-ofExit();
-	call ofApp::exit();
-	別classから呼び出してもofApp::exit();に来る。
-	ofApp::exit();の後、そのまま、呼び出し元に戻って、今の関数は続ける
-	今の関数抜けたら、終了する(Destructorもきちんと呼ばれる)
-	
-opApp::exit()にてstd::exit(1);で終了すると、当然ここで終了。
-つまり、その後の関数処理も行われない。
-しかし、opApp::~ofApp()も呼ばれない。
-ofApp内で定義したclass memberのDestructorも呼ばれない。
-
-
-結論
-	ERRORで抜ける場合は、std::exit(1);を直接呼び出す。
-	∵
-	強制終了意外でもofApp:exit()はcallされるので、ofApp::exit()の最後にstd::exit(1);を入れるのはNG。
-	ofExit();の後にreturn;してその関数を抜ければOK.
 ************************************************************/
 
 /************************************************************
@@ -35,7 +18,7 @@ TEMP Temp_inner("Temp_outer");
 ofApp::ofApp()
 : Temp_inner("Temp_inner")
 {
-	printf("%s\n", __FUNCTION__);
+	printf("ofApp : constructor\n");
 	fflush(stdout);
 }
 
@@ -43,14 +26,14 @@ ofApp::ofApp()
 ******************************/
 ofApp::~ofApp()
 {
-	printf("%s\n", __FUNCTION__);
+	printf("ofApp : destructor\n");
 	fflush(stdout);
 }
 
 /******************************
 ******************************/
 void ofApp::exit(){
-	printf("%s\n", __FUNCTION__);
+	printf("ofApp : exit\n");
 	fflush(stdout);
 }
 
@@ -74,13 +57,18 @@ void ofApp::setup(){
 	
 	/********************
 	********************/
-	// ofExit();
-	std::exit();
+	/*
+	ofExit();
+	std::exit(1);
+	*/
 }
 
 /******************************
 ******************************/
 void ofApp::update(){
+	printf("ofApp : update in\n");
+	fflush(stdout);
+	
 	if(b_Exit){
 		printf("ofApp:update:b_Exit\n");
 		fflush(stdout);
@@ -91,16 +79,29 @@ void ofApp::update(){
 		*/
 	}
 	
-	printf("%s\n", __FUNCTION__);
+	printf("ofApp : update out\n");
 	fflush(stdout);
 }
 
 /******************************
 ******************************/
 void ofApp::draw(){
+	printf("ofApp : draw in\n");
+	fflush(stdout);
+	
 	ofBackground(30);
 	
-	printf("%s\n", __FUNCTION__);
+	if(b_Exit){
+		printf("ofApp:draw:b_Exit\n");
+		fflush(stdout);
+		
+		/*
+		ofExit();
+		std::exit(1);
+		*/
+	}
+	
+	printf("ofApp : draw out\n");
 	fflush(stdout);
 }
 
@@ -110,7 +111,7 @@ void ofApp::keyPressed(int key){
 	switch(key){
 		case ' ':
 			b_Exit = true;
-			printf("%s : Exit\n", __FUNCTION__);
+			printf("ofApp : key ; exit\n");
 			fflush(stdout);
 			break;
 			

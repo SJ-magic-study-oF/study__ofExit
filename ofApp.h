@@ -1,4 +1,19 @@
 /************************************************************
+ofExit()
+	sj_note.jpeg の左図。分かり易い
+
+std::exit()
+	ofApp::setup()からcall
+		O	ofApp::exit()
+		X	ofApp::dst()
+		X	ofApp内	class obj : dst()
+		O	Global	class obj : dst()
+		
+	ofApp::updata/ draw()からcall
+		O	ofApp::exit()
+		O	ofApp::dst()
+		O	ofApp内	class obj : dst()
+		O	Global	class obj : dst()
 ************************************************************/
 #pragma once
 
@@ -16,20 +31,25 @@ public:
 	TEMP(string _str_Name)
 	: str_Name(_str_Name)
 	{
-		printf("%s : %s\n", str_Name.c_str(), __FUNCTION__);
+		printf("%s : constructor\n", str_Name.c_str());
 		fflush(stdout);
 	}
 	
 	~TEMP()
 	{
-		printf("%s : %s\n", str_Name.c_str(), __FUNCTION__);
+		printf("%s : destructor\n", str_Name.c_str());
 		fflush(stdout);
 	}
 	
 	void exit(){
-		ofExit();
-		printf("%s : %s\n", str_Name.c_str(), __FUNCTION__);
+		printf("%s : exit\n", str_Name.c_str());
 		fflush(stdout);
+		
+		/*
+		ofExit();
+		std::exit(1);
+		*/
+		
 	}
 	
 };
